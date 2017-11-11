@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Administrasi CRUD SPBU</title>
+
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <script src="js/jquery-3.2.1.slim.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <!-- <script src="js/angular.min.js" charset="utf-8"></script> -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+
+    </head>
+    <body>
+        <div data-ng-app="myApp" data-ng-controller="myCtrl">
+            <h3>CRUD Pengisian BBM</h3>
+            <form novalidate>
+                BBM (Liter): <input type="text" ng-model="liter"> <br />
+                Tipe BBM: <select type="text" ng-model="tipe" >
+                        <option value="">
+                        </option>
+                </select> <br />
+                Harga BBM per Liter (Rp): <input type="text" ng-model="price" disabled> <br />
+                Total (Rp): <span ng-bind="liter * price"></span>
+                <br /><br />
+                <button ng-click="process(liter * price)">Proccess</button>
+            </form>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            No
+                        </th>
+                        <th>
+                            Total
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="x in data">
+                        <td>
+                            {{ $index + 1 }}
+                        </td>
+                        <td>
+                            {{ x.price }}
+                        </td>
+                        <td>
+                            <span ng-click="delete($index)">delete</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <script>
+        var app = angular.module('myApp', []);
+        app.controller('myCtrl', function($scope) {
+            $scope.total = 0;
+            $scope.liter = 0;
+            $scope.price = 10000;
+            $scope.tipes = [
+                {name: "Premium", value:10000},
+                {name: "Pertalite", value:20000},
+                {name: "Pertamax", value:30000},
+            ];
+            $scope.data = [
+            ];
+            $scope.process = function(total) {
+                if (!(total === undefined || total === '')){
+                    $scope.data.push({price:total});
+                }
+            };
+            $scope.delete = function(id) {
+                if (!(id === undefined || id === '')){
+                    $scope.data.splice(id,1);
+                }
+            };
+        });
+        </script>
+
+    </body>
+</html>
